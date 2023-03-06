@@ -103,7 +103,7 @@ app.get('/', async function(req, res, next) {
     console.log('user: ', user);
     let posts=undefined;
     posts = await Message.find({});
-
+    console.log('posts: ', posts);
     if(user && !user.member)posts.forEach(x=> {
         x.firstname=undefined;
         x.lastname=undefined;
