@@ -6,7 +6,6 @@ const cookieParser = require('cookie-parser');
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
-const CookieStrategy = require("passport-cookie");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
