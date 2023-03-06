@@ -5,7 +5,90 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <header>
+        <div class="logoWrapper">
+            <img class="d-block mx-auto mb-4" src="/images/nira.png" alt="logo">
+        </div>
+        <% if(user) {%>
+            <div class="navbarLoged">
+                <div class="navItem">Logged in as:</div>
+                <div class="navItem"><%= user.firstname %> </div>
+                <a type="button" class="btnLink" href="/logout">Log out</a>
+                <a type="button" class="btnLink" href="/member">Exclusive Club</a>
+            </div>
+            <% } else {%>
+        <a type="button" class="btnLink" href="/login">Log In</a>
+        <a type="button" class="btnLink" href="/signup">Sign Up</a>
+        <% } %>
+    </header>
+
+    <main class="mainBody">
+        
+        <h1 class="coloredText">MembersOnly</h1>
+        <section>
+            
+
+            <% if(user) { %>
+                <div class="sectionHeader">
+                    <a type="button" class="btnLink msgButton" href="/message">Post Message</a>
+                </div>
+            <% } else { %>
+                <div class="sectionHeader coloredText">Log in or sign up to post a message.</div>
+            <% } %>
+            <section class="sectionMessages">
+                <% for(let i=0;i<posts.length;i++) { %>
+                    <div class="postWrapper" data-id="<%= posts[i]._id %>">
+                        <% if(user && user.member){ %>
+                            <div class="moreInfo">
+                                <div class="spanMember">
+                                    <span><%= posts[i].firstname %></span>
+                                    <span><%= posts[i].lastname %></span>
+                                </div>
+                                
+                                    <div>-</div>
+                                <span><%= new Date(posts[i].timestamp).toLocaleDateString() %></span>
+                            </div>
+                        <% } %>
+                        <% if(user && user.member) { %>
+                            <div class="deleteWrapper">
+                                <div class="deleteInner" onclick="deletePost(this)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M280 936q-33 0-56.5-23.5T200 856V336h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680 936H280Zm400-600H280v520h400V336ZM360 776h80V416h-80v360Zm160 0h80V416h-80v360ZM280 336v520-520Z"/></svg> 
+                                </div>
+                                    
+                            </div>
+                        <% } %>
+                        <div class="postTitle"><%= posts[i].title %></div>
+                        <div class="postMessage"><%= posts[i].message %></div>
+                    </div>
+                <% } %>
+            </section>
+                
+            
+        </section>
+    </main>
+    <script>
+        function deletePost(e) {
+            const value=e.parentElement.parentElement.getAttribute('data-id');
+            postData("/deletePost", value);
+            location.reload();
+        }
+        async function postData(url = "/deletePost", value) {
+        // Default options are marked with *
+        const response = await fetch(url, {
+            method: "DELETE", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: "follow", // manual, *follow, error
+            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify({value:value}), // body data type must match "Content-Type" header
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+        }
+    </script>
   </body>
 </html>

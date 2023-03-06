@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <header>
+        <div class="logoWrapper">
+            <img class="d-block mx-auto mb-4" src="/images/nira.png" alt="" width="auto" height="150">
+        </div>
+        <a type="button" class="btnLink" href="/">Home</a>
+
+    </header>
+
+    <main class="mainBody">
+        
+        <h1>Sign up</h1>
+        <section class="sectionForm">
+            
+            <form action="/signup" method="post">
+                <div class="formTitle">All fields are required:</div>
+                <div class="formSection">
+                    <label for="firstName">First Name:</label>
+                    <input type="text" required name="firstName">
+                </div>
+
+                <div class="formSection">
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" required name="lastName">
+                </div>
+
+                <div class="formSection">
+                    <label for="email">Email:</label>
+                    <input type="email" required name="email">
+                </div>
+
+                <div class="formSection">
+                    <label for="password">Password:</label>
+                    <input type="password" required name="password">
+                </div>
+                <button type="submit" class="btnLink">Submit</button>
+            </form>
+        </section>
+        <% if(isTaken) { %>
+            <div class="modalWrapper">
+                <div class="modalInner">
+                    <div class="modalTitle">Email already in use</div>
+                    <button class="btnLink" onclick="closeModal()">OK</button>
+                </div>
+                <div class="backdrop"></div>
+            </div>
+        <% } %>
+    </main>
+  </body>
+  <script>
+    function closeModal() {
+        const modalWrapper = document.querySelector('.modalWrapper');
+        modalWrapper.remove();
+    }
+  </script>
+</html>

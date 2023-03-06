@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <header>
+        <div class="logoWrapper">
+            <img class="d-block mx-auto mb-4" src="/images/nira.png" alt="" width="auto" height="150">
+        </div>
+        <a type="button" class="btnLink" href="/">Home</a>
+
+    </header>
+
+    <main class="mainBody">
+        
+        <h1>Premium Club</h1>
+        <section class="sectionForm">
+            <% if(member) { %>
+                <div class="memberText">
+                    Congrats on being part of the exclusive club!
+                </div>
+            <% } else { %>
+                <div class="memberText">
+                    <div class="memberTitle">Only those who can answer this riddle are worthy of joining the Elite Club of MembersOnly.</div>
+
+                    <form action="/member" method="post">
+
+                        <div class="formSection">
+                            <label for="member">What is the best online course to become a front-end developper?</label>
+                            <input type="text" required name="member">
+                        </div>
+        
+
+                        <button type="submit" class="btnLink">Submit</button>
+                    </form>
+
+                </div>
+            <% } %>
+
+            <% if(locals.wrong) { %>
+                <div class="modalWrapper">
+                    <div class="modalInner">
+                        <div class="modalTitle">Nope, wrong answer!</div>
+                        <button class="btnLink" onclick="closeModal()">OK</button>
+                    </div>
+                    <div class="backdrop"></div>
+                </div>
+            <% } %>
+            
+        </section>
+    </main>
+    <script>
+        function closeModal() {
+            const modalWrapper = document.querySelector('.modalWrapper');
+            modalWrapper.remove();
+        }
+      </script>
+  </body>
+</html>
